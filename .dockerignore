@@ -1,0 +1,11 @@
+.venv
+.git
+data
+logs
+runtime
+demo
+**/__pycache__
+.pytest_cache
+.ruff_cache
+*.pcap
+artifacts/*/splits/train.parquet

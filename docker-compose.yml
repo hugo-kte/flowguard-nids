@@ -1,0 +1,27 @@
+# Demo stack: replays the labelled CICIDS2017 test split through the detection engine and
+# serves the SOC dashboard on http://localhost:8501.
+# Prerequisite: trained artifacts on the host (`make pipeline`).
+services:
+  replay:
+    build: .
+    image: flowguard:latest
+    command: ["replay", "-c", "configs/cicids2017.yaml", "--rate", "1000"]
+    volumes:
+      - ./artifacts:/app/artifacts:ro
+      - runtime:/app/runtime
+    restart: "no"
+
+  dashboard:
+    image: flowguard:latest
+    command: ["dashboard", "-c", "configs/cicids2017.yaml", "--host", "0.0.0.0"]
+    ports:
+      - "8501:8501"
+    volumes:
+      - ./artifacts:/app/artifacts:ro
+      - ./reports:/app/reports:ro
+      - runtime:/app/runtime:ro
+    depends_on:
+      - replay
+
+volumes:
+  runtime:

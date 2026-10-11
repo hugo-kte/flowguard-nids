@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  test:
+    name: Lint & test (Python ${{ matrix.python-version }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12", "3.13"]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+      - run: pip install -e ".[dashboard,dev]"
+      - name: Lint
+        run: |
+          ruff check src tests
+          ruff format --check src tests
+      - name: Test
+        run: pytest --cov --cov-report=term-missing
+
+  smoke:
+    name: End-to-end smoke run (synthetic traffic)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+          cache: pip
+      - run: pip install -e .
+      - run: flowguard train -c configs/synthetic.yaml
+      - run: flowguard evaluate -c configs/synthetic.yaml
+      - run: flowguard demo-pcap demo.pcap --scale 0.1
+      - run: flowguard detect demo.pcap -c configs/synthetic.yaml -o alerts.jsonl
+      - uses: actions/upload-artifact@v4
+        with:
+          name: synthetic-report
+          path: artifacts/synthetic/reports/
+
+  docker:
+    name: Docker image builds
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - run: docker build -t flowguard:ci .
+      - run: docker run --rm flowguard:ci --help

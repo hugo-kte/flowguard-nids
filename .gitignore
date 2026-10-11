@@ -1,0 +1,30 @@
+# Python
+.venv/
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# Data, models and runtime output (large or regenerable - see README)
+data/
+artifacts/
+runtime/
+logs/
+demo/
+*.pcap
+*.pcapng
+
+# Editors / OS
+.DS_Store
+.idea/
+.vscode/
+.streamlit/secrets.toml
+
+# Local tooling
+.claude/

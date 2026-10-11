@@ -1,0 +1,35 @@
+# Full pipeline on the improved CICIDS2017 dataset (Engelen et al., 2022).
+# Download: https://intrusion-detection.distrinet-research.be/CNS2022/Datasets/
+name: cicids2017
+dataset:
+  kind: cicids2017
+  source: data/raw/CICIDS2017_improved.zip
+  cache: data/processed/cicids2017.parquet
+  attempted: benign          # authors' recommendation: "Attempted" flows carry no attack behaviour
+split:
+  val_size: 0.2
+  test_size: 0.2
+  seed: 42
+  max_train_per_family:      # bound training time; validation/test keep the real class mix
+    BENIGN: 500000
+models:
+  random_forest:
+    params: {n_estimators: 100, max_depth: 30, min_samples_leaf: 2}
+  hist_gradient_boosting:
+    params: {max_iter: 300, learning_rate: 0.1, max_leaf_nodes: 63}
+  isolation_forest:
+    max_train_rows: 200000
+    params: {n_estimators: 200}
+  autoencoder:
+    max_train_rows: 200000
+    params: {hidden_layer_sizes: [48, 16, 48], max_iter: 60}
+detection:
+  target_fpr: 0.001          # supervised alerts: 1 false alarm per 1,000 benign flows
+  anomaly_fpr: 0.01          # anomaly "leads": a looser budget, triaged at lower severity
+  supervised_model: hist_gradient_boosting
+  anomaly_model: autoencoder
+zero_day:
+  enabled: true
+  min_test_samples: 15
+artifacts_dir: artifacts/cicids2017
+reports_dir: reports

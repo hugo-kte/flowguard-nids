@@ -1,0 +1,31 @@
+# Tiny end-to-end run on generated traffic: used by CI and for a 1-minute demo.
+name: synthetic
+dataset:
+  kind: synthetic
+  cache: artifacts/synthetic/flows.parquet
+  synthetic_scale: 1.0
+  seed: 0
+split:
+  val_size: 0.25
+  test_size: 0.25
+  seed: 7
+models:
+  random_forest:
+    params: {n_estimators: 30, max_depth: 12}
+  hist_gradient_boosting:
+    params: {max_iter: 60}
+  isolation_forest:
+    params: {n_estimators: 50}
+  autoencoder:
+    params: {hidden_layer_sizes: [24, 8, 24], max_iter: 40}
+detection:
+  target_fpr: 0.01
+  anomaly_fpr: 0.02
+  supervised_model: hist_gradient_boosting
+  anomaly_model: autoencoder
+zero_day:
+  enabled: true
+  min_test_samples: 10
+  params: {max_iter: 40}
+artifacts_dir: artifacts/synthetic
+reports_dir: artifacts/synthetic/reports
