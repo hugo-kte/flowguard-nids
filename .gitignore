@@ -12,11 +12,11 @@ coverage.xml
 htmlcov/
 
 # Data, models and runtime output (large or regenerable - see README)
-data/
-artifacts/
-runtime/
-logs/
-demo/
+/data/
+/artifacts/
+/runtime/
+/logs/
+/demo/
 *.pcap
 *.pcapng
 
