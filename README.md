@@ -420,3 +420,9 @@ The demo pcap is synthetic and contains no real payload.
 ## License
 
 [MIT](LICENSE). The CICIDS2017 data is not redistributed here; see the dataset authors' terms.
+
+<!-- portfolio-footer -->
+
+---
+
+<sub>Part of a cybersecurity & AI engineering portfolio: **FlowGuard (network IDS)** · [Detection-as-code](https://github.com/hugo-kte/detection-as-code) (Sigma rules) · [Insider-threat UEBA](https://github.com/hugo-kte/insider-threat-ueba) · [AlertLens](https://github.com/hugo-kte/alertlens) (SOC triage) · [PromptWall](https://github.com/hugo-kte/promptwall) (LLM firewall) · [MLSeal](https://github.com/hugo-kte/secure-mlops-pipeline) (secure MLOps) · [Gleaner](https://github.com/hugo-kte/cti-to-stix) (CTI to STIX).</sub>
