@@ -116,6 +116,7 @@ make dashboard      # terminal 2 -> http://localhost:8501
 flowguard prepare    Load, clean and cache the dataset; print the cleaning report
 flowguard train      Split, fit every model, calibrate thresholds, save the bundle
 flowguard evaluate   Test-set metrics, zero-day experiment, figures, reports/REPORT.md
+flowguard pipeline   prepare + train + evaluate in one go
 flowguard detect     Analyse a pcap offline and print/write alerts
 flowguard sniff      Live capture from an interface (root required)
 flowguard replay     Stream the labelled test split through the engine
@@ -321,9 +322,9 @@ context.
 
 The probe generates 300 Hulk-style connections as packets, meters them with the flow meter and
 changes one implementation detail at a time. The victim's TCP window, page size and latency do
-not matter; how connections are closed and how responses are segmented does. Change both and
-the flood becomes invisible. This is the strongest argument for the first roadmap item:
-host-level features over time windows.
+not matter. A graceful close alone changes nothing and MSS-sized segments alone lower detection
+to 86%; change both and the flood becomes invisible. This is the strongest argument for the
+first roadmap item: host-level features over time windows.
 
 ### Real packets: the demo capture
 
@@ -346,7 +347,7 @@ above shows what happens when they are not.
 
 ![Permutation importance](reports/figures/feature_importance.png)
 
-Batch scoring runs at about 150,000 flows/s for Gradient Boosting and 200,000 flows/s for the
+Batch scoring runs at about 190,000 flows/s for Gradient Boosting and 210,000 flows/s for the
 autoencoder on a laptop (Intel i9-9880H). In live mode the Python packet parsing is the
 bottleneck, not the models.
 
