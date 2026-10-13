@@ -16,7 +16,7 @@ Deliberately excluded CICFlowMeter columns:
 
 from __future__ import annotations
 
-# canonical name -> column name in the improved CICIDS2017 CSVs (Engelen et al., 2022)
+# canonical name -> column name in the improved CICIDS2017 CSVs (Liu et al., 2022)
 CICIDS2017_COLUMNS: dict[str, str] = {
     "protocol": "Protocol",
     "flow_duration": "Flow Duration",

@@ -1,4 +1,4 @@
-"""Loading and cleaning of the improved CICIDS2017 dataset (Engelen et al., 2022).
+"""Loading and cleaning of the improved CICIDS2017 dataset (Liu et al., 2022).
 
 Download: https://intrusion-detection.distrinet-research.be/CNS2022/Datasets/
 

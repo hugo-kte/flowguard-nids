@@ -146,8 +146,9 @@ docker run --rm --net=host --cap-add=NET_RAW --user root \
 
 The original CICIDS2017 CSVs contain documented flaws: flows cut at the first FIN, mislabelled
 attack traffic, artefacts of the feature extractor ([Engelen et al., 2021](https://intrusion-detection.distrinet-research.be/WTMC2021/)).
-FlowGuard uses the corrected release by the same authors and applies four traceable cleaning
-steps (counts are in [`reports/REPORT.md`](reports/REPORT.md)):
+FlowGuard uses the improved release from the same research group
+([Liu et al., 2022](https://intrusion-detection.distrinet-research.be/CNS2022/)) and applies
+four traceable cleaning steps (counts are in [`reports/REPORT.md`](reports/REPORT.md)):
 
 1. **"Attempted" flows are relabelled benign**, as the authors recommend: they belong to an
    attack run but carry no malicious behaviour (e.g. a handshake that never sent a payload);

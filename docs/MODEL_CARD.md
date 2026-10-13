@@ -13,7 +13,7 @@ All numbers come from [`reports/metrics.json`](../reports/metrics.json) and are 
 | Input | 65 bidirectional flow statistics computed by FlowGuard's CICFlowMeter-compatible flow meter |
 | Output | Attack family + calibrated alert decision; anomaly score with per-feature explanation |
 | Framework | scikit-learn; artifacts are joblib files verified by SHA-256 before loading |
-| Training data | Improved CICIDS2017 (Engelen et al., 2022), 60/20/20 stratified split after cleaning |
+| Training data | Improved CICIDS2017 (Liu et al., 2022), 60/20/20 stratified split after cleaning |
 | Licence | MIT |
 
 ## Intended use

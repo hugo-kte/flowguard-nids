@@ -1,8 +1,8 @@
 """Bidirectional flow meter replicating the (fixed) CICFlowMeter feature semantics.
 
 The models are trained on CICIDS2017 flows produced by the CICFlowMeter version fixed by
-Engelen et al. (WTMC 2021 / CNS 2022). To score live traffic we must rebuild flows and
-compute features *exactly* the same way, otherwise the model silently degrades
+Engelen et al. (WTMC 2021) and Liu et al. (CNS 2022). To score live traffic we must rebuild
+flows and compute features *exactly* the same way, otherwise the model silently degrades
 (train/serve skew). This module is a dependency-free Python port of the relevant logic:
 
 * flows are bidirectional; the first packet defines the forward direction, except a
