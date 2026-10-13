@@ -17,8 +17,8 @@ jobs:
       matrix:
         python-version: ["3.11", "3.12", "3.13"]
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: ${{ matrix.python-version }}
           cache: pip
@@ -34,8 +34,8 @@ jobs:
     name: End-to-end smoke run (synthetic traffic)
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
-      - uses: actions/setup-python@v5
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
         with:
           python-version: "3.12"
           cache: pip
@@ -44,7 +44,7 @@ jobs:
       - run: flowguard evaluate -c configs/synthetic.yaml
       - run: flowguard demo-pcap demo.pcap --scale 0.1
       - run: flowguard detect demo.pcap -c configs/synthetic.yaml -o alerts.jsonl
-      - uses: actions/upload-artifact@v4
+      - uses: actions/upload-artifact@v6
         with:
           name: synthetic-report
           path: artifacts/synthetic/reports/
@@ -53,6 +53,6 @@ jobs:
     name: Docker image builds
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
       - run: docker build -t flowguard:ci .
       - run: docker run --rm flowguard:ci --help
