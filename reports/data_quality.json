@@ -1,0 +1,78 @@
+{
+  "cleaning": {
+    "raw_rows": 2099976,
+    "attempted_flows": 11979,
+    "dropped_other_protocols": 1510,
+    "wrapped_header_lengths": 593,
+    "zero_duration_infinite_rates": 5,
+    "dropped_non_finite_rows": 0,
+    "dropped_duplicates": 385790,
+    "duplicates_by_family": {
+      "PortScan": 223124,
+      "BENIGN": 162250,
+      "DoS": 416
+    },
+    "clean_rows": 1712676,
+    "families": {
+      "BENIGN": 1430787,
+      "DoS": 171218,
+      "DDoS": 95144,
+      "PortScan": 7707,
+      "BruteForce": 6933,
+      "Botnet": 736,
+      "WebAttack": 104,
+      "Infiltration": 36,
+      "Heartbleed": 11
+    }
+  },
+  "duplicate_share_of_raw_rows": 0.1837,
+  "duplicate_share_by_family": {
+    "BENIGN": 0.1018,
+    "Botnet": 0.0,
+    "BruteForce": 0.0,
+    "DDoS": 0.0,
+    "DoS": 0.0024,
+    "Heartbleed": 0.0,
+    "Infiltration": 0.0,
+    "PortScan": 0.9666,
+    "WebAttack": 0.0
+  },
+  "bwd_init_win_bytes_most_common": {
+    "BENIGN": {
+      "most_common": 0,
+      "share": 0.6182
+    },
+    "Botnet": {
+      "most_common": 237,
+      "share": 0.9049
+    },
+    "BruteForce": {
+      "most_common": 0,
+      "share": 0.57
+    },
+    "DDoS": {
+      "most_common": 229,
+      "share": 1.0
+    },
+    "DoS": {
+      "most_common": 235,
+      "share": 0.9815
+    },
+    "Heartbleed": {
+      "most_common": 235,
+      "share": 0.6364
+    },
+    "Infiltration": {
+      "most_common": 1452,
+      "share": 0.3056
+    },
+    "PortScan": {
+      "most_common": 0,
+      "share": 0.7387
+    },
+    "WebAttack": {
+      "most_common": 1174,
+      "share": 0.3365
+    }
+  }
+}

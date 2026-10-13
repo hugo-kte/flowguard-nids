@@ -24,7 +24,7 @@ from collections.abc import Callable, Iterator
 from contextlib import contextmanager
 from functools import partial
 from pathlib import Path
-from typing import IO, Literal
+from typing import IO, Any, Literal
 
 import numpy as np
 import pandas as pd
@@ -91,13 +91,13 @@ def read_raw(source: str | Path) -> pd.DataFrame:
 def clean(
     raw: pd.DataFrame,
     attempted: Literal["benign", "drop"] = "benign",
-) -> tuple[pd.DataFrame, dict[str, int]]:
+) -> tuple[pd.DataFrame, dict[str, Any]]:
     """Turn raw CICIDS2017 rows into the canonical schema. Returns (frame, report)."""
     missing = {*CICIDS2017_COLUMNS.values(), RAW_LABEL} - set(raw.columns)
     if missing:
         raise ValueError(f"not an improved-CICIDS2017 file, missing columns: {sorted(missing)}")
 
-    report: dict[str, int] = {"raw_rows": len(raw)}
+    report: dict[str, Any] = {"raw_rows": len(raw)}
     rename = {v: k for k, v in {**CICIDS2017_COLUMNS, **METADATA_COLUMNS}.items()}
     df = raw.rename(columns=rename)
     if "day" not in df:
@@ -138,6 +138,9 @@ def clean(
 
     dup = df.duplicated(subset=[*FEATURES, FAMILY_COLUMN])
     report["dropped_duplicates"] = int(dup.sum())
+    report["duplicates_by_family"] = {
+        str(k): int(v) for k, v in df.loc[dup, FAMILY_COLUMN].value_counts().items()
+    }
     df = df.loc[~dup]
 
     df[FEATURES] = df[FEATURES].astype(np.float32)
@@ -152,5 +155,5 @@ def clean(
 def load(
     source: str | Path,
     attempted: Literal["benign", "drop"] = "benign",
-) -> tuple[pd.DataFrame, dict[str, int]]:
+) -> tuple[pd.DataFrame, dict[str, Any]]:
     return clean(read_raw(source), attempted=attempted)

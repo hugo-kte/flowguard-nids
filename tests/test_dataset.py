@@ -52,6 +52,7 @@ def test_clean_applies_every_rule():
         "zero_duration_infinite_rates": 1,
         "dropped_non_finite_rows": 0,
         "dropped_duplicates": 1,
+        "duplicates_by_family": {"BENIGN": 1},
         "clean_rows": 5,  # attempted relabelled, infinite rate fixed, wrapped header kept
     }
     assert list(clean.columns) == cicids2017.OUTPUT_COLUMNS
@@ -61,6 +62,24 @@ def test_clean_applies_every_rule():
     assert clean.loc[1, "label_raw"] == "DoS Hulk - Attempted"  # relabelled, raw label kept
     assert all(clean[f].dtype == np.float32 for f in FEATURES)
     assert np.isfinite(clean[FEATURES].to_numpy()).all()
+
+
+def test_data_quality_facts_come_from_the_cleaning_report():
+    from flowguard.data.quality import data_quality
+
+    df = pd.DataFrame(
+        {"family": ["DoS"] * 4 + ["BENIGN"] * 2, "bwd_init_win_bytes": [235, 235, 235, 0, 8192, 0]}
+    )
+    report = {
+        "raw_rows": 10,
+        "dropped_duplicates": 4,
+        "duplicates_by_family": {"DoS": 4},
+        "families": {"DoS": 4, "BENIGN": 2},
+    }
+    facts = data_quality(df, report)
+    assert facts["duplicate_share_of_raw_rows"] == 0.4
+    assert facts["duplicate_share_by_family"] == {"BENIGN": 0.0, "DoS": 0.5}
+    assert facts["bwd_init_win_bytes_most_common"]["DoS"] == {"most_common": 235, "share": 0.75}
 
 
 def test_attempted_can_be_dropped():

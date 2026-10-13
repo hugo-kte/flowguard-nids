@@ -114,6 +114,7 @@ make dashboard      # terminal 2 -> http://localhost:8501
 
 ```text
 flowguard prepare    Load, clean and cache the dataset; print the cleaning report
+flowguard data-quality  Recompute the data-quality facts below -> reports/data_quality.json
 flowguard train      Split, fit every model, calibrate thresholds, save the bundle
 flowguard evaluate   Test-set metrics, zero-day experiment, figures, reports/REPORT.md
 flowguard pipeline   prepare + train + evaluate in one go
@@ -149,7 +150,9 @@ The original CICIDS2017 CSVs contain documented flaws: flows cut at the first FI
 attack traffic, artefacts of the feature extractor ([Engelen et al., 2021](https://intrusion-detection.distrinet-research.be/WTMC2021/)).
 FlowGuard uses the improved release from the same research group
 ([Liu et al., 2022](https://intrusion-detection.distrinet-research.be/CNS2022/)) and applies
-four traceable cleaning steps (counts are in [`reports/REPORT.md`](reports/REPORT.md)):
+four traceable cleaning steps (counts are in [`reports/REPORT.md`](reports/REPORT.md); the
+percentages below are recomputed by `flowguard data-quality` in
+[`reports/data_quality.json`](reports/data_quality.json)):
 
 1. **"Attempted" flows are relabelled benign**, as the authors recommend: they belong to an
    attack run but carry no malicious behaviour (e.g. a handshake that never sent a payload);

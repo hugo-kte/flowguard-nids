@@ -7,7 +7,7 @@ DATA_FILE   := data/raw/CICIDS2017_improved.zip
 DATA_SHA256 := 97fdb91d339e2d8cf5627f981b831e5e7e400b981c58181c451a38fd03c48883
 
 .DEFAULT_GOAL := help
-.PHONY: help install data train evaluate pipeline quickstart replay dashboard test lint format docker-build docker-up clean
+.PHONY: help install data train evaluate data-quality pipeline quickstart replay dashboard test lint format docker-build docker-up clean
 
 help: ## Show this help
 	@grep -E '^[a-zA-Z_-]+:.*?## ' $(MAKEFILE_LIST) | awk 'BEGIN {FS = ":.*?## "}; {printf "  \033[36m%-14s\033[0m %s\n", $$1, $$2}'
@@ -30,6 +30,9 @@ train: ## Train every model on $(CONFIG)
 
 evaluate: ## Evaluate on the test split, write reports/ (metrics, figures, REPORT.md)
 	$(PY) -m flowguard evaluate -c $(CONFIG)
+
+data-quality: ## Recompute the README's data-quality facts -> reports/data_quality.json
+	$(PY) -m flowguard data-quality -c $(CONFIG)
 
 pipeline: data train evaluate ## Full CICIDS2017 run: download, train, evaluate
 

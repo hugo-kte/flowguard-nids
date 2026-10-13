@@ -92,6 +92,24 @@ def prepare(
     console.print_json(json.dumps(report))
 
 
+@app.command("data-quality")
+def data_quality(config: ConfigOpt = DEFAULT_CONFIG) -> None:
+    """Recompute the data-quality facts quoted in the README -> reports/data_quality.json."""
+    from flowguard.data.quality import data_quality as _data_quality
+    from flowguard.data.split import prepare as _prepare
+
+    cfg = _config(config)
+    df, report = _prepare(cfg)
+    if cfg.dataset.kind != "synthetic" and "duplicates_by_family" not in report:
+        df, report = _prepare(cfg, force=True)  # cache written by an older version
+    facts = _data_quality(df, report)
+    out = cfg.reports_dir / "data_quality.json"
+    out.parent.mkdir(parents=True, exist_ok=True)
+    out.write_text(json.dumps(facts, indent=2) + "\n")
+    console.print_json(json.dumps({k: v for k, v in facts.items() if k != "cleaning"}))
+    console.print(f"Written to [bold]{out}[/bold]")
+
+
 @app.command()
 def train(
     config: ConfigOpt = DEFAULT_CONFIG,
